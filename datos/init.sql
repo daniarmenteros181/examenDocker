@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS cesta;
 
-USE cesta;
+ USE cesta;
 
 CREATE TABLE IF NOT EXISTS regalo (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS regalo (
     cesta  VARCHAR(255) NOT NULL
 );
 
-INSERT INTO regalo (nombre,correo,cesta) VALUES
-    ('manolo,','jve@ieslasfuentezuelas.com','sin'),
-    ('dani,','daniarmenteros18@gmail.com','con'),
+INSERT INTO regalo (nombre, correo, cesta) VALUES
+    ('manolo', 'jve@ieslasfuentezuelas.com', 'sin'),
+    ('dani', 'daniarmenteros18@gmail.com', 'con'); 
