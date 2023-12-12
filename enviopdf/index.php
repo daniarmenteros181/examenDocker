@@ -11,24 +11,19 @@ $html = '
 
 <style>
     img {
-        width: 200px;  /* Ancho deseado de la imagen */
-        height: auto;  /* Altura automática para mantener la proporción original */
-        border: 1px solid #000;  /* Borde de 1 píxel sólido negro */
+        width: 200px;  
+        height: auto;  
+        border: 1px solid #000; 
     }
 </style>
 
 </head>
 <body>
 <h2>Ingredientes para aprobar DWES</h2>
-<p>Ingredientes:</p>
 <dl>
-<dd>Perseverancia</dd>
-<dd>Constancia</dd>
-<dd>Optimismo</dd>
-<dd>Autoestima</dd>
-<dd>Trabajo en Equipo</dd>
-<dd>Jamón Pata Negra</dd>
-<img src="Horario.jpg"></img>
+<h1>Pasion y riqueza</h1>
+<dd>Jamón Pata Negra:</dd>
+<img src="jamon.jpg"></img>
 
 </dl>
 </body>
@@ -40,7 +35,7 @@ $dompdf->set_option('isPhpEnabled', true);
 $dompdf->set_option('chroot', __DIR__);  
 $dompdf->set_paper("A4", "portrait");
 $dompdf->load_html($html);
-$dompdf->getOptions()->setChroot('Horario.jpg');
+$dompdf->getOptions()->setChroot('jamon.jpg');
 $dompdf->render();
 $pdf_content = $dompdf->output();
 

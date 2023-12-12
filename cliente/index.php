@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validar si el nombre está presente
     if (!empty($nombre)) {
-        // Usar Guzzle para hacer una solicitud a 'cartero' con el nombre
         $client = new Client();
         $data = ['form_params' => ['nombre' => $nombre]];
 

@@ -1,4 +1,6 @@
 <?php
+
+
 require_once 'vendor/autoload.php';
 use GuzzleHttp\Client;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -11,61 +13,64 @@ try {
     echo "Error de conexión: " . $e->getMessage();
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //  nombre del formulario
+    // Obtener el nombre del formulario
     $nombre = $_POST['nombre'];
 
-    //  nombre está presente
+    // Validar si el nombre está presente
     if (!empty($nombre)) {
-        //  nombre está en la base de datos
+        // Verificar si el nombre está en la base de datos
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM regalo WHERE nombre = :nombre");
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
         $stmt->execute();
         $count = $stmt->fetchColumn();
 
         if ($count > 0) {
-            // El nombre está en la base de datos
-            // Continuar con el resto del código
-
-            // Usar Guzzle para hacer una solicitud interna a 'envioPdf'
             $client = new Client();
             $response = $client->request('GET', 'http://envioPdf');
 
-
             $contenido = $response->getBody();
 
-        // Crear el objeto PHPMailer y enviar el correo con el PDF adjunto
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->SMTPDebug  = 0;
-        $mail->SMTPAuth   = true;
-        $mail->SMTPSecure = "tls";
-        $mail->Host       = "smtp.gmail.com";
-        $mail->Port       = 587;
-        $mail->Username   = "darmace2311@g.educaand.es";
-        $mail->Password   = "qyqg hzoo fbxs wexp";
-        $mail->SetFrom('darmace2311@g.educaand.es', 'Test');
-        $mail->Subject    = "SIIII";
-        $mail->MsgHTML('Prueba');
-        $mail->addStringAttachment($contenido, 'HeavenTicket.pdf', 'base64', 'application/pdf');
-        $address = "daniarmenteros18@gmail.com";
-        $mail->AddAddress($address, "Test");
+            // Crear el objeto PHPMailer
+            $mail = new PHPMailer();
+            $mail->IsSMTP();
+            $mail->SMTPDebug  = 0;
+            $mail->SMTPAuth   = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host       = "smtp.gmail.com";
+            $mail->Port       = 587;
+            $mail->Username   = "darmace2311@g.educaand.es";
+            $mail->Password   = "qyqg hzoo fbxs wexp";
+            $mail->SetFrom('darmace2311@g.educaand.es', 'Test');
+            $mail->Subject    = "SIIII";
+            $mail->MsgHTML('Prueba');
+            $mail->addStringAttachment($contenido, 'HeavenTicket.pdf', 'base64', 'application/pdf');
 
-        // Enviar el correo y manejar errores
-        try {
-            $resul = $mail->Send();
-            if (!$resul) {
-                echo "Error: " . $mail->ErrorInfo;
-            } else {
-                echo "Enviado";
+            // correo electrónico según el nombre
+            $direccionCorreo = "";
+            switch ($nombre) {
+                case 'dani':
+                    $direccionCorreo = "daniarmenteros18@gmail.com";
+                    break;
+                case 'manolo':
+                    $direccionCorreo = "jve@ieslasfuentezuelas.com";
+                    break;
             }
-        } catch (Exception $e) {
-            echo "Excepción al enviar el correo: " . $e->getMessage();
-        }
-            
-            
 
+            // Agregar la dirección de correo al destinatario
+            $mail->AddAddress($direccionCorreo, "Test");
+
+            // Enviar el correo 
+            try {
+                $resul = $mail->Send();
+                if (!$resul) {
+                    echo "Error: " . $mail->ErrorInfo;
+                } else {
+                    echo "Enviado";
+                }
+            } catch (Exception $e) {
+                echo "Excepción al enviar el correo: " . $e->getMessage();
+            }
         } else {
             echo "El nombre no existe en la base de datos.";
         }
@@ -76,4 +81,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Acceso no permitido.";
 }
 ?>
-?>
+
